@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width,user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="css/register.css">
+            
+        <title>register</title>
+
+    </head>
+
+    <body >
+        <div id="login_frame">
+        <p id="image_logo"><img style="width:320px;height:180px;" src="images/logo.jpg"></p> 
+        <form>
+            <p>
+            <label class="label_input">
+                person_id</label>  <input class="text_field" id="person_id" type="text" maxlength="25" placeholder="please input your id " value=""/></p>
+                <p>
+            <label class="label_input">
+                name</label>  <input class="text_field" id="name" type="text" maxlength="25" placeholder="plz input your name" value=""/></p>
+                <p>
+            <label class="label_input">
+                password</label> <input id="password" type="password" maxlength="20" placeholder="plz set password" value="" class="text_field" /></p>
+                <p>
+            <label class="label_input">
+                confirm</label> <input class="text_field" id="passwordd" type="password" maxlength="20" placeholder="plz input password once again" value=""/></p>
+                <p>
+            <label class="label_input">
+                title</label><select class="text_field" id="title" style="color: rgb(153,153,153); " onchange="choose(this)" value="">
+                    <option value="">select</option>
+
+                    <option value="prof">professor</option>
+
+                    <option value="Mr">Mr</option>
+                    <option value="doctor">doctor</option>
+                    <option value="Ms">Ms</option>
+                    <option value="Miss">Miss</option>
+                </select>
+             </p>
+       <p>
+            <label class="label_input">
+                institution</label>   <input class="text_field" id="institution" type="text" maxlength="20" placeholder="plz input your institution" value=""/></p>
+            
+       <p>
+            <label class="label_input">
+                email</label>   <input class="text_field" id="email" type="email" maxlength="20" placeholder="plz input your email" value=""/></p>
+                <p>
+            <label class="label_input">
+                phone</label> <input class="text_field" id="telephone_number" type="text" maxlength="11" placeholder="telephone_number" value=""/>
+              </p>
+         </form>  
+         <div id="login_control">
+            <div style="margin-bottom: 20px;">
+            <button  id="btn" onclick="submit()">register</button>
+            <button  id="btn" onclick=" location='login.html'">back</button>
+        </div>
+        </div> <p style="margin:auto;position:relative;bottom:0;display:block;font-size:12px;margin-top:10px;color:grey;">Copyright©2018 PCSystem Cillivian</p>
+            <p style="margin:auto;position:relative;bottom:0;display:block;font-size:12px;margin:0px;color:grey;">All rights reserved.</p>
+</div>
+        
+
+           
+
+
+        <script src="jquery-3.1.0.min.js"></script>
+        <script type="text/javascript">
+
+            window.onload=function(){
+                var w=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+                var h=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;
+                if(w<=414){
+                    document.getElementsByTagName('body')[0].style.width= w+'px';
+                    document.getElementById('foot').style.width=w+'px';
+                    document.getElementById('foot').style.height=w*209/320+'px';
+                }
+
+            }
+
+            function submit(){
+                var person_id=document.getElementById('person_id').value;
+                var name=document.getElementById('name').value;
+                var password=document.getElementById('password').value;   
+                var passwordd=document.getElementById('passwordd').value;
+                var title=document.getElementById('title').value;
+                var institution=document.getElementById('institution').value;
+                var telephone_number=document.getElementById('telephone_number').value;
+                var email=document.getElementById('email').value;
+                if(name==""){
+                        alert("plz input name");
+                }
+                else if(password==""){
+                    alert("plz input password");
+                }
+                else if(person_id==""){
+                    alert("id can't be null");
+                }
+                else if(passwordd==""){
+                    alert("plz input password again");
+                }
+                else if(password!=passwordd){
+                    alert("Inconsistent password");
+                }
+                else{
+                        $.post("register.php",
+                        {
+                            person_id:person_id,
+                            name:name,
+                            password:password,
+                            title:title,
+                            institution:institution,
+                            email:email,
+                            telephone_number:telephone_number
+                        },
+                        function(data,status) {
+                            if (status=="success"){        
+                                var condition = data;
+                                // alert(condition);
+                                if(condition==0){
+                                    alert("成功注册~\(≧▽≦)/~");
+                                    window.location.href="login.html";
+                                }
+                                else if(condition==1){
+                                     alert("数据连接失败QUQ");
+                                }
+                                else if(condition==2){
+                                    alert("注册失败，该用户名已被注册QUQ"+condition);
+                                }
+                                else{
+                                    alert(condition);
+                                }
+                            }
+                            else{                
+                                alert("Request was unsuccessful: " + status);                       
+                            }
+                        }
+                    );
+                }
+
+            }
+
+            function choose(t){
+            if(t.value!=""){
+                t.style.color="black";
+                
+            }
+            else{
+                t.style.color="rgb(153,153,153)";
+            }
+        }
+        </script>
+    </body>
+
+</html>
