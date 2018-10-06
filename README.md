@@ -1,4 +1,4 @@
-# pc
+# Paper_Conference_System
 PC SYSTEM 
 基本信息
 版本1.0.2（alpha版本）
